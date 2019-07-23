@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  db:
+    image: jsurf/rpi-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      MYSQL_USER: your_mysql_username
+      MYSQL_PASSWORD: your_mysql_password
+      MYSQL_DATABASE: your_mysql_database
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+    volumes:
+      - /filerun/db:/var/lib/mysql
+
+  web:
+    image: afian/filerun:arm32v7
+    environment:
+      FR_DB_HOST: db
+      FR_DB_PORT: 3306
+      FR_DB_NAME: your_mysql_database
+      FR_DB_USER: your_mysql_username
+      FR_DB_PASS: your_mysql_password
+      APACHE_RUN_USER: pi
+      APACHE_RUN_USER_ID: 1000
+      APACHE_RUN_GROUP: pi
+      APACHE_RUN_GROUP_ID: 1000
+    depends_on:
+      - db
+    links:
+      - db:db
+    ports:
+      - "80:80"
+    volumes:
+      - /filerun/html:/var/www/html
+      - /filerun/user-files:/user-files
