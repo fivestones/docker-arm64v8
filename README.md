@@ -1,4 +1,4 @@
-# docker-arm32v7
-FileRun Docker image for ARM 32bit
+# docker-arm64v8
+FileRun Docker image for ARM 64bit (e.g. Rpi 4)
 
-Tested on Raspberry Pi 3 model B+
+Completely untested.
