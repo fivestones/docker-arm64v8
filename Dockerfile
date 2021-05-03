@@ -70,7 +70,7 @@ RUN apt-get update \
     && echo "zend_extension=ioncube_loader_lin_7.4.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_7.4.ini \
     && rm -rf ioncube ioncube_loaders_lin_aarch64.tar.gz \
  # Install STL-THUMB
-    && echo [Install STL-THUMB]
+    && echo [Install STL-THUMB] \
     && curl -O -L https://github.com/unlimitedbacon/stl-thumb/releases/download/v0.4.0/stl-thumb_0.4.0_arm64.deb \
     && dpkg -i stl-thumb-0.4.0_arm64.deb \
     && rm -rf stl-thumb_0.4.0_arm64.deb \
