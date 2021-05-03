@@ -90,7 +90,7 @@ RUN apt-get update \
   # Download FileRun installation package
     && echo [Download FileRun installation package version 2021.03.26 \
     && curl -o /filerun.zip -L 'https://f.afian.se/wl/?id=SkPwYC8dOcMIDWohmyjOqAgdqhRqCZ3X&fmode=download' \
-    && chown www-data:www-data /user-files
+    && chown www-data:www-data /user-files \
     && chmod +x /wait-for-it.sh /import-db.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["apache2-foreground"]
