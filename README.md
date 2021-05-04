@@ -3,7 +3,7 @@ FileRun Docker image for ARM 64bit (e.g. Rpi 4)
 
 Tested just enough to see that it runs, on a Rpi 4 with 8 GB RAM.
 
-Do a git clone of this repository
+Do a git clone of this repository. 
 Then run ./build.sh
 
 That will make you a docker image which you can use on the rpi to set up filerun.
