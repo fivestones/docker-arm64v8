@@ -1,4 +1,4 @@
-FROM arm64v8/php:8.0.5-apache
+FROM arm64v8/php:7.4.18-apache
 
 ENV FR_DB_HOST=db \
     FR_DB_PORT=3306 \
@@ -53,7 +53,8 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir /var/log/supervisord /var/run/supervisord \
-    && sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml \
+    #&& sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml \
+        # the above /etc/ImageMagick-6/policy.xml file doesn't exist, I read that graphicsmagick doesn't use a policy.xml file but you can do similar things with env vars (https://stackoverflow.com/questions/50825595/equivalent-of-policy-xml-file-with-graphicsmagick-to-deal-with-pixel-flood-dos-a)
     && docker-php-ext-configure zip \
     #&& docker-php-ext-configure gd --with-gd --with-freetype-dir \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
@@ -64,15 +65,15 @@ RUN apt-get update \
 # Install ionCube for arm64 (aarch64)
     && echo [Install ionCube] \
     && curl -O -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.tar.gz \
+    && tar xvfz ioncube_loaders_lin_aarch64.tar.gz ioncube/ioncube_loader_lin_7.4.so \
     && PHP_EXT_DIR=$(php-config --extension-dir) \
-    && tar xvfz ioncube_loaders_lin_aarch64.tar.gz ioncube/ioncube_loader_lin_7.4.so -C $PHP_EXT_DIR \
-    #&& cp "ioncube/ioncube_loader_lin_7.4.so" $PHP_EXT_DIR \
+    && cp "ioncube/ioncube_loader_lin_7.4.so" $PHP_EXT_DIR \
     && echo "zend_extension=ioncube_loader_lin_7.4.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_7.4.ini \
     && rm -rf ioncube ioncube_loaders_lin_aarch64.tar.gz \
  # Install STL-THUMB
     && echo [Install STL-THUMB] \
     && curl -O -L https://github.com/unlimitedbacon/stl-thumb/releases/download/v0.4.0/stl-thumb_0.4.0_arm64.deb \
-    && dpkg -i stl-thumb-0.4.0_arm64.deb \
+    && dpkg -i stl-thumb_0.4.0_arm64.deb \
     && rm -rf stl-thumb_0.4.0_arm64.deb \
  # Enable Apache XSendfile
     && echo [Enable Apache XSendfile] \
